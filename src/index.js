@@ -12,12 +12,16 @@ const countryInfo = document.querySelector('.country-info');
 
 searchBox.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
+function cleanInput() {
+  countryList.innerHTML = '';
+  countryInfo.innerHTML = '';
+}
+
 function onInput() {
   const countryName = searchBox.value.trim();
 
   if (countryName === '') {
-    countryList.innerHTML = '';
-    countryInfo.innerHTML = '';
+    cleanInput();
     return;
   }
 
@@ -27,8 +31,7 @@ function onInput() {
         Notify.info(
           'Too many matches found. Please enter a more specific name'
         );
-        countryList.innerHTML = '';
-        countryInfo.innerHTML = '';
+        cleanInput();
         return;
       }
 
@@ -50,8 +53,7 @@ function onInput() {
     })
     .catch(error => {
       Notify.failure('Oops, there is no country with that name');
-      countryList.innerHTML = '';
-      countryInfo.innerHTML = '';
+      cleanInput();
       return error;
     });
 }
